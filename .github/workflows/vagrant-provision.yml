@@ -1,0 +1,26 @@
+name: Vagrant Provision
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Vagrant
+      run: |
+        vagrant up
+
+    - name: SSH into Vagrant
+      run: |
+        vagrant ssh -c "echo 'Hello from Vagrant'"
+
+    - name: Tear down Vagrant
+      run: |
+        vagrant destroy -f
