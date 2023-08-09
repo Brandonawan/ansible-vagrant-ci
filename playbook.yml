@@ -1,0 +1,9 @@
+---
+- name: Provision VM
+  hosts: all
+  tasks:
+    - name: Install Apache
+      become: yes
+      apt:
+        name: apache2
+        state: present

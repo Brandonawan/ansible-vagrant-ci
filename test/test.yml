@@ -1,0 +1,11 @@
+---
+- name: Ensure Apache is installed
+  hosts: all
+  tasks:
+    - name: Check Apache package
+      command: dpkg-query -W -f='${Status}' apache2
+      register: apache_pkg_status
+    - name: Fail if Apache is not installed
+      fail:
+        msg: "Apache is not installed"
+      when: apache_pkg_status.stdout != 'install ok installed'
