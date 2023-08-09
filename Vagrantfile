@@ -1,7 +1,8 @@
 Vagrant.configure("2") do |config|
-  config.vm.box = "ubuntu/bionic64"
+  config.vm.box = "generic/ubuntu1804"
 
-  config.vm.provision "ansible" do |ansible|
-    ansible.playbook = "playbook.yml"
-  end
+  config.vm.define 'ubuntu'
+
+  # Prevent SharedFoldersEnableSymlinksCreate errors
+  config.vm.synced_folder ".", "/vagrant", disabled: true
 end

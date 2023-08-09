@@ -6,29 +6,25 @@ on:
       - main
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  vagrant-up:
+    runs-on: macos-10.15
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: Set up Vagrant
-      run: |
-        # Change directory to where the Vagrantfile is located
-        
-        # Ensure Vagrant is initialized
-        vagrant init
-        # Start the Vagrant virtual machine
-        vagrant up
+      - name: Cache Vagrant boxes
+        uses: actions/cache@v2
+        with:
+          path: ~/.vagrant.d/boxes
+          key: ${{ runner.os }}-vagrant-${{ hashFiles('Vagrantfile') }}
+          restore-keys: |
+            ${{ runner.os }}-vagrant-
 
-    - name: SSH into Vagrant
-      run: |
-        # SSH into the Vagrant virtual machine and run a command
-        vagrant ssh -c "echo 'Hello from Vagrant'"
+      - name: Show Vagrant version
+        run: vagrant --version
 
-    - name: Tear down Vagrant
-      run: |
-        # Halt and destroy the Vagrant virtual machine
-        vagrant halt
-        vagrant destroy -f
+      - name: Run vagrant up
+        run: vagrant up
+
+      - name: ssh into box after boot
+        run: vagrant ssh -c "echo 'hello world!'"
