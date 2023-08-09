@@ -15,12 +15,20 @@ jobs:
 
     - name: Set up Vagrant
       run: |
+        # Change directory to where the Vagrantfile is located
+        
+        # Ensure Vagrant is initialized
+        vagrant init
+        # Start the Vagrant virtual machine
         vagrant up
 
     - name: SSH into Vagrant
       run: |
+        # SSH into the Vagrant virtual machine and run a command
         vagrant ssh -c "echo 'Hello from Vagrant'"
 
     - name: Tear down Vagrant
       run: |
+        # Halt and destroy the Vagrant virtual machine
+        vagrant halt
         vagrant destroy -f
