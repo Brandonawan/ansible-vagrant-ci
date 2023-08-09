@@ -7,7 +7,7 @@ on:
 
 jobs:
   vagrant-up:
-    runs-on: macos-10.15
+    runs-on: ubuntu-latest  # Use an Ubuntu-based runner for faster execution
 
     steps:
       - uses: actions/checkout@v2
@@ -27,4 +27,7 @@ jobs:
         run: vagrant up
 
       - name: ssh into box after boot
-        run: vagrant ssh -c "echo 'hello world!'"
+        run: vagrant ssh -c "echo 'Hello from Vagrant'"
+
+      - name: Tear down Vagrant
+        run: vagrant destroy -f
